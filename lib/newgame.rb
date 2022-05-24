@@ -1,10 +1,8 @@
 require_relative 'dragon'
 require_relative 'reaction'
-require_relative 'time'
+require 'byebug'
 class StartGame
   include Reaction
-  include Time
-
   attr_reader :dragon
 
   def initialize
@@ -15,7 +13,6 @@ class StartGame
     loop do
       welcome
       user_input
-      end_time
       break if @user_input == 'Quit'
     end
   end
