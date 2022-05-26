@@ -9,7 +9,6 @@ class StartGame
   attr_reader :dragon, :start_time
 
   def initialize
-    byebug
     @dragon = Dragon.new
     @start_time = Time.now.to_time_of_day
   end
