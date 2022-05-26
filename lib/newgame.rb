@@ -1,12 +1,17 @@
 require_relative 'dragon'
 require_relative 'reaction'
+require 'time'
+require 'tod'
+require 'tod/core_extensions'
 require 'byebug'
 class StartGame
   include Reaction
-  attr_reader :dragon
+  attr_reader :dragon, :start_time
 
   def initialize
+    byebug
     @dragon = Dragon.new
+    @start_time = Time.now.to_time_of_day
   end
 
   def game
@@ -38,6 +43,19 @@ class StartGame
     sleep_response
     affection_response
     fun_response
+    hunger_increase
     exit if @user_input == 'Quit'
+  end
+
+  def feed_time
+    Time.now.to_time_of_day unless @user_input != 'Feed'
+  end
+
+  def hunger_increase
+    if (@start_time.to_i - feed_time.to_i) > 120
+      @dragon.hunger += 1
+    elsif feed_time.to_i.nil? && @start_time.to_i > 120
+      @dragon.hunger += 1
+    end
   end
 end
