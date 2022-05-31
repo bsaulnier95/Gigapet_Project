@@ -10,7 +10,7 @@ class StartGame
 
   def initialize
     @dragon = Dragon.new
-    @start_time = Time.now.to_time_of_day
+    @start_time = Time.now
   end
 
   def game
@@ -37,15 +37,32 @@ class StartGame
     print "Feed, Sleep, Play, Pet, or Quit\n"
     print "Input:\n"
     @user_input = gets.capitalize.chomp
-    print "\n"
     feed_response
     sleep_response
     affection_response
     fun_response
     hunger_increase
+    time_fed
     exit if @user_input == 'Quit'
   end
 
+  def time_fed
+    if @user_input == 'Feed'
+      @dragon.tfed = Time.now
+    end
+  end
+
+  def hunger_increase
+    if Time.parse(@dragon.tfed.to_s) > Time.parse(@start_time.to_s) + 2 * 60
+      @dragon.hunger += 1
+    end
+  end
+end
+
+
+
+
+=begin
   def feed_time
     Time.now.to_time_of_day unless @user_input != 'Feed'
   end
@@ -57,4 +74,4 @@ class StartGame
       @dragon.hunger += 1
     end
   end
-end
+=end
